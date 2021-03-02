@@ -1,1 +1,37 @@
-
+spring:
+  application:
+    name: vacation
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    cache-duration: PT1H
+  profiles:
+    active: local
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    platform: h2
+    driver-class-name: org.h2.Driver
+    url: "jdbc:h2:mem:vacation;MODE=MYSQL;DB_CLOSE_DELAY=-1"
+    username: sa
+    password:
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 5
+      pool-name: H2_DB
+server:
+  port: 8080
+jwt:
+  token:
+    header: x-access-token
+    issuer: vacation
+    secret: b213506c-51d3-41c8-a4aa-2248015f0e52
+    expirationTime: 0
