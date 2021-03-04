@@ -50,7 +50,7 @@ public class UserRestController {
     @ApiOperation(value = "이메일 중복확인 (JWT 불필요)")
     @PostMapping(path = "user/exists")
     public ResponseEntity<Boolean> checkEmail(
-            @RequestBody @ApiParam(value = "example: {\"email\": \"test@gmail.com\"}") Map<String, String> request
+            @RequestBody @ApiParam(value = "example: {\"email\": \"test@gmail.com\"}", example = "{\"email\": \"test@gmail.com\"}") Map<String, String> request
     ) {
         return ResponseEntity.ok(
                 userService.findByEmail(request.get("email")).isPresent()
@@ -82,7 +82,7 @@ public class UserRestController {
     @PatchMapping("user/password")
     public ResponseEntity<UserDto> updatePassword(
             @AuthenticationPrincipal JwtAuthentication authentication,
-            @RequestBody @ApiParam(value = "example: {\"password\": \"P@ssword!\"}") Map<String, String> request
+            @RequestBody @ApiParam(value = "example: {\"password\": \"P@ssword!\"}", example = "{\"password\": \"P@ssword!\"}") Map<String, String> request
     ) {
         return ResponseEntity.ok(
                 new UserDto(
