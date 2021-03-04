@@ -1,12 +1,15 @@
 package com.hwanchang.vacation.entity.user;
 
 import com.hwanchang.vacation.entity.BaseTimeEntity;
+import com.hwanchang.vacation.entity.vacation.Vacation;
 import com.hwanchang.vacation.security.Jwt;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -25,21 +28,24 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 13)
     private String phone;
 
     private int loginCount;
 
     private LocalDateTime lastLoginAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<Vacation> vacations = new ArrayList<>();
 
     public User(String email, String name, String password, String phone) {
         this(null, email, name, password, phone, 0, null);
