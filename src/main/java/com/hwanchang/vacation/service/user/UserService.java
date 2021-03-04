@@ -66,6 +66,15 @@ public class UserService {
                 }).orElseThrow(() -> new NotFoundException(User.class, userId));
     }
 
+    @Transactional
+    public User delete(Long userId) {
+        return findById(userId)
+                .map(user -> {
+                    userRepository.delete(user);
+                    return user;
+                }).orElseThrow(() -> new NotFoundException(User.class, userId));
+    }
+
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -80,14 +89,6 @@ public class UserService {
 
     private User update(User user) {
         return userRepository.save(user);
-    }
-
-    public User delete(Long userId) {
-        return findById(userId)
-                .map(user -> {
-                    userRepository.delete(user);
-                    return user;
-                }).orElseThrow(() -> new NotFoundException(User.class, userId));
     }
 
 }

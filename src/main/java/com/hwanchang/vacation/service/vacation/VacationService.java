@@ -7,6 +7,7 @@ import com.hwanchang.vacation.repository.user.UserRepository;
 import com.hwanchang.vacation.repository.vacation.VacationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +20,7 @@ public class VacationService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public Vacation add(Long userId, LocalDate date, String reason) {
         return userRepository.findById(userId)
                 .map(user -> update(new Vacation(date, reason, user)))
@@ -29,6 +31,7 @@ public class VacationService {
         return vacationRepository.findAllByUserUserId(userId);
     }
 
+    @Transactional
     public Vacation updateReason(Long userId, Long vacationId, String reason) {
         return vacationRepository.findByUserUserIdAndVacationId(userId, vacationId)
                 .map(vacation -> {
@@ -37,6 +40,7 @@ public class VacationService {
                 }).orElseThrow(() -> new NotFoundException(Vacation.class, vacationId));
     }
 
+    @Transactional
     public Vacation delete(Long userId, Long vacationId) {
         return vacationRepository.findByUserUserIdAndVacationId(userId, vacationId)
                 .map(vacation -> {
