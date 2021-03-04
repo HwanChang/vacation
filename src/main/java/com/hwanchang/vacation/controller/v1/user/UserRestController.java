@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class UserRestController {
         );
 
         String token = user.createToken(jwt, new String[]{Role.USER.value()});
-        return ResponseEntity.ok(new JoinResponse(token, new UserDto(user)));
+        return new ResponseEntity<>(new JoinResponse(token, new UserDto(user)), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "이메일 중복확인 (JWT 불필요)")
@@ -58,7 +59,7 @@ public class UserRestController {
     }
 
     @ApiOperation(value = "내 정보 조회")
-    @GetMapping(path = "user/me")
+    @GetMapping(path = "user")
     public ResponseEntity<UserDto> me(@AuthenticationPrincipal JwtAuthentication authentication) {
         return ResponseEntity.ok(
                 new UserDto(
@@ -69,7 +70,7 @@ public class UserRestController {
     }
 
     @ApiOperation(value = "전체 사용자 정보 조회")
-    @GetMapping(path = "user")
+    @GetMapping(path = "users")
     public ResponseEntity<List<UserDto>> findAll() {
         return ResponseEntity.ok(
                 userService.findAll().stream()
