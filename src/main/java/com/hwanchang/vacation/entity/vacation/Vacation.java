@@ -1,7 +1,7 @@
 package com.hwanchang.vacation.entity.vacation;
 
 import com.hwanchang.vacation.entity.BaseTimeEntity;
-import com.hwanchang.vacation.entity.user.User;
+import com.hwanchang.vacation.entity.application.Application;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,26 +29,26 @@ public class Vacation extends BaseTimeEntity {
     private String reason;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "application_id")
+    private Application application;
 
-    public Vacation(LocalDate date, String reason, User user) {
-        this(null, date, reason, user);
+    public Vacation(LocalDate date, String reason, Application application) {
+        this(null, date, reason, application);
     }
 
-    public Vacation(Long vacationId, LocalDate date, String reason, User user) {
+    public Vacation(Long vacationId, LocalDate date, String reason, Application application) {
         checkNotNull(date, "date must be provided.");
         checkArgument(isNotEmpty(reason), "reason must be provided.");
         checkArgument(
                 reason.length() >= 1 && reason.length() <= 500,
                 "reason length must be between 1 and 500 characters."
         );
-        checkNotNull(user, "user must be provided.");
+        checkNotNull(application, "application must be provided.");
 
         this.vacationId = vacationId;
         this.date = date;
         this.reason = reason;
-        this.user = user;
+        this.application = application;
     }
 
     public void updateReason(String reason) {

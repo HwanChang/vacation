@@ -1,7 +1,8 @@
 package com.hwanchang.vacation.entity.user;
 
 import com.hwanchang.vacation.entity.BaseTimeEntity;
-import com.hwanchang.vacation.entity.vacation.Vacation;
+import com.hwanchang.vacation.entity.application.Application;
+import com.hwanchang.vacation.entity.approve.Approve;
 import com.hwanchang.vacation.security.Jwt;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +22,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @EqualsAndHashCode(of = "userId", callSuper = false)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = {"applications", "approves"})
 public class User extends BaseTimeEntity {
 
     @Id
@@ -45,7 +46,10 @@ public class User extends BaseTimeEntity {
     private LocalDateTime lastLoginAt;
 
     @OneToMany(mappedBy = "user")
-    private List<Vacation> vacations = new ArrayList<>();
+    private List<Application> applications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Approve> approves = new ArrayList<>();
 
     public User(String email, String name, String password, String phone) {
         this(null, email, name, password, phone, 0, null);

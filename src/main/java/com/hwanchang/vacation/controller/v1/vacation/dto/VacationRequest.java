@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 public class VacationRequest {
 
     @ApiModelProperty(value = "휴가 날짜", required = true)
-    private LocalDate date;
+    private List<LocalDate> dates;
 
     @ApiModelProperty(value = "사유", required = true)
     private String reason;
