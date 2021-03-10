@@ -45,10 +45,10 @@ public class User extends BaseTimeEntity {
 
     private LocalDateTime lastLoginAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Application> applications = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Approve> approves = new ArrayList<>();
 
     public User(String email, String name, String password, String phone) {

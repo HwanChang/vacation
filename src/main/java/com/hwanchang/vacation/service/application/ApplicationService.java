@@ -44,4 +44,8 @@ public class ApplicationService {
                 }).orElseThrow(() -> new NotFoundException(User.class, userId));
     }
 
+    public List<Application> findAll(Long userId) {
+        return applicationRepository.findAllByUserUserId(userId);
+    }
+
 }

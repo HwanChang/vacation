@@ -10,10 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Api(tags = {"신청 APIs"})
 @RequestMapping("api/v1")
@@ -34,6 +35,16 @@ public class ApplicationRestController {
                         applicationService.save(authentication.userId, applicationRequest.getVacationRequest(), applicationRequest.getApproveRequests())
                 ),
                 HttpStatus.CREATED
+        );
+    }
+
+    @ApiOperation(value = "내 신청서 조회")
+    @GetMapping(path = "application")
+    public ResponseEntity<List<ApplicationResponse>> findAll(@AuthenticationPrincipal JwtAuthentication authentication) {
+        return ResponseEntity.ok(
+                applicationService.findAll(authentication.userId).stream()
+                        .map(ApplicationResponse::new)
+                        .collect(toList())
         );
     }
 
