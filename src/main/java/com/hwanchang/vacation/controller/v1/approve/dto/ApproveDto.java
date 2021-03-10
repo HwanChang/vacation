@@ -14,7 +14,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 public class ApproveDto {
 
     @ApiModelProperty(value = "PK", required = true)
-    private Long applicationId;
+    private Long approveId;
 
     @ApiModelProperty(value = "결재 여부", required = true)
     private boolean isApprove;
