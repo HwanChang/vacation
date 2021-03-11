@@ -5,6 +5,7 @@ import com.hwanchang.vacation.entity.approve.Approve;
 import com.hwanchang.vacation.entity.user.User;
 import com.hwanchang.vacation.entity.vacation.Vacation;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@DynamicUpdate
 @Entity
 @EqualsAndHashCode(of = "applicationId", callSuper = false)
 @Getter
@@ -54,6 +56,10 @@ public class Application extends BaseTimeEntity {
 
     public void addApproves(List<Approve> approves) {
         this.approves.addAll(approves);
+    }
+
+    public void approveApplication() {
+        this.level++;
     }
 
 }

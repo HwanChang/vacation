@@ -1,5 +1,6 @@
 package com.hwanchang.vacation.controller.v1.approve.dto;
 
+import com.hwanchang.vacation.controller.v1.user.dto.UserDto;
 import com.hwanchang.vacation.entity.approve.Approve;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -22,8 +23,13 @@ public class ApproveDto {
     @ApiModelProperty(value = "결재 단계", required = true)
     private int level;
 
+    @ApiModelProperty(value = "결재자", required = true)
+    private UserDto user;
+
     public ApproveDto(Approve source) {
         copyProperties(source, this);
+
+        this.user = new UserDto(source.getUser());
     }
 
 }
