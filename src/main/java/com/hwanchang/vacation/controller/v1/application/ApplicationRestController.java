@@ -48,4 +48,14 @@ public class ApplicationRestController {
         );
     }
 
+    @ApiOperation(value = "내 결재 신청서 조회")
+    @GetMapping(path = "approve/application")
+    public ResponseEntity<List<ApplicationResponse>> findApproveAll(@AuthenticationPrincipal JwtAuthentication authentication) {
+        return ResponseEntity.ok(
+                applicationService.findApproveAll(authentication.userId).stream()
+                        .map(ApplicationResponse::new)
+                        .collect(toList())
+        );
+    }
+
 }

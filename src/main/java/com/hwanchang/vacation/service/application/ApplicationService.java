@@ -8,18 +8,22 @@ import com.hwanchang.vacation.entity.user.User;
 import com.hwanchang.vacation.entity.vacation.Vacation;
 import com.hwanchang.vacation.error.NotFoundException;
 import com.hwanchang.vacation.repository.appclication.ApplicationRepository;
+import com.hwanchang.vacation.repository.approve.ApproveRepository;
 import com.hwanchang.vacation.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
 public class ApplicationService {
+
+    private final ApproveRepository approveRepository;
 
     private final ApplicationRepository applicationRepository;
 
@@ -46,6 +50,13 @@ public class ApplicationService {
 
     public List<Application> findAll(Long userId) {
         return applicationRepository.findAllByUserUserId(userId);
+    }
+
+    public List<Application> findApproveAll(Long userId) {
+        return approveRepository.findAllByUserUserId(userId).stream()
+                .map(approve -> applicationRepository.findByApplicationIdAndLevel(approve.getApplication().getApplicationId(), approve.getLevel()))
+                .filter(Objects::nonNull)
+                .collect(toList());
     }
 
 }
