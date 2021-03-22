@@ -33,7 +33,7 @@ public class ApplicationService {
     public Application save(Long userId, VacationRequest vacationRequest, List<ApproveRequest> approveRequests) {
         return userRepository.findById(userId)
                 .map(user -> {
-                    Application application = new Application(user);
+                    Application application = new Application(approveRequests.size(), user);
                     application.addVacations(vacationRequest.getDates().stream()
                             .map(date -> new Vacation(date, vacationRequest.getReason(), application)).collect(toList()));
                     application.addApproves(approveRequests.stream()

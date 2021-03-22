@@ -28,6 +28,13 @@ public class Application extends BaseTimeEntity {
     @Column(nullable = false)
     private int level;
 
+    @Column(nullable = false)
+    private int approveCount;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private State state;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "requester_id")
     private User user;
@@ -38,15 +45,17 @@ public class Application extends BaseTimeEntity {
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Approve> approves = new ArrayList<>();
 
-    public Application(User user) {
-        this(null, 1, user);
+    public Application(int approveCount, User user) {
+        this(null, 1, approveCount, State.RUNNING, user);
     }
 
-    public Application(Long applicationId, int level, User user) {
+    public Application(Long applicationId, int level, int approveCount, State state, User user) {
         checkNotNull(user, "user must be provided.");
 
         this.applicationId = applicationId;
         this.level = level;
+        this.approveCount = approveCount;
+        this.state = state;
         this.user = user;
     }
 
