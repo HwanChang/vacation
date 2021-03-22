@@ -1,6 +1,7 @@
 package com.hwanchang.vacation.service.approve;
 
 import com.hwanchang.vacation.entity.application.Application;
+import com.hwanchang.vacation.entity.application.State;
 import com.hwanchang.vacation.error.NotFoundException;
 import com.hwanchang.vacation.repository.appclication.ApplicationRepository;
 import com.hwanchang.vacation.repository.approve.ApproveRepository;
@@ -20,12 +21,16 @@ public class ApproveService {
 
     @Transactional
     public Optional<Application> approve(Long applicationId, Long userId) {
-        return approveRepository.findByApplicationApplicationIdAndUserUserId(applicationId, userId)
+        return approveRepository.findByApplicationApplicationIdAndUserUserIdAndApplicationState(applicationId, userId, State.RUNNING)
                 .map(approve -> {
                     approve.approve();
                     return applicationRepository.findById(applicationId)
                             .map(application -> {
-                                application.approveApplication();
+                                if (application.getApproveCount() == approve.getLevel()) {
+                                    application.finish();
+                                } else {
+                                    application.approveApplication();
+                                }
                                 return application;
                             }).orElseThrow(() -> new NotFoundException(Application.class, applicationId));
                 });

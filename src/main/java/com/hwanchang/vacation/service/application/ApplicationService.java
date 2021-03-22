@@ -3,6 +3,7 @@ package com.hwanchang.vacation.service.application;
 import com.hwanchang.vacation.controller.v1.approve.dto.ApproveRequest;
 import com.hwanchang.vacation.controller.v1.vacation.dto.VacationRequest;
 import com.hwanchang.vacation.entity.application.Application;
+import com.hwanchang.vacation.entity.application.State;
 import com.hwanchang.vacation.entity.approve.Approve;
 import com.hwanchang.vacation.entity.user.User;
 import com.hwanchang.vacation.entity.vacation.Vacation;
@@ -54,7 +55,7 @@ public class ApplicationService {
 
     public List<Application> findApproveAll(Long userId) {
         return approveRepository.findAllByUserUserId(userId).stream()
-                .map(approve -> applicationRepository.findByApplicationIdAndLevel(approve.getApplication().getApplicationId(), approve.getLevel()))
+                .map(approve -> applicationRepository.findByApplicationIdAndLevelAndState(approve.getApplication().getApplicationId(), approve.getLevel(), State.RUNNING))
                 .filter(Objects::nonNull)
                 .collect(toList());
     }
