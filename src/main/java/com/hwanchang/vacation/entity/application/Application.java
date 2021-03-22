@@ -71,4 +71,16 @@ public class Application extends BaseTimeEntity {
         this.level++;
     }
 
+    public void finish() {
+        this.state = State.FINISHED;
+    }
+
+    public void reject() {
+        this.state = State.REJECTED;
+    }
+
+    public void cancel() {
+        this.state = State.CANCELED;
+    }
+
 }
