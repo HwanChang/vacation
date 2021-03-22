@@ -3,6 +3,7 @@ package com.hwanchang.vacation.service.application;
 import com.hwanchang.vacation.controller.v1.approve.dto.ApproveRequest;
 import com.hwanchang.vacation.controller.v1.vacation.dto.VacationRequest;
 import com.hwanchang.vacation.entity.application.Application;
+import com.hwanchang.vacation.entity.application.State;
 import com.hwanchang.vacation.entity.approve.Approve;
 import com.hwanchang.vacation.entity.user.User;
 import com.hwanchang.vacation.entity.vacation.Vacation;
@@ -76,6 +77,8 @@ class ApplicationServiceTest {
         //then
         assertThat(application).isNotNull();
         assertThat(application.getLevel()).isEqualTo(1);
+        assertThat(application.getApproveCount()).isEqualTo(2);
+        assertThat(application.getState()).isEqualTo(State.RUNNING);
         assertThat(application.getUser()).isEqualTo(requestUser);
         assertThat(application.getVacations().stream().map(Vacation::getDate)).containsAll(vacationDates);
         assertThat(application.getVacations().stream().map(Vacation::getReason)).contains(reason);
@@ -106,6 +109,8 @@ class ApplicationServiceTest {
         assertThat(applications).hasSizeGreaterThan(0);
         for (Application application : applications) {
             assertThat(application.getLevel()).isEqualTo(1);
+            assertThat(application.getApproveCount()).isEqualTo(2);
+            assertThat(application.getState()).isEqualTo(State.RUNNING);
             assertThat(application.getUser()).isEqualTo(requestUser);
             assertThat(application.getVacations().stream().map(Vacation::getDate)).containsAll(vacationDates);
             assertThat(application.getVacations().stream().map(Vacation::getReason)).contains(reason);
