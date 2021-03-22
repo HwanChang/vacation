@@ -4,6 +4,7 @@ import com.hwanchang.vacation.controller.v1.approve.dto.ApproveDto;
 import com.hwanchang.vacation.controller.v1.user.dto.UserDto;
 import com.hwanchang.vacation.controller.v1.vacation.dto.VacationDto;
 import com.hwanchang.vacation.entity.application.Application;
+import com.hwanchang.vacation.entity.application.State;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,12 @@ public class ApplicationResponse {
 
     @ApiModelProperty(value = "결재 단계", required = true)
     private int level;
+
+    @ApiModelProperty(value = "결재 개수", required = true)
+    private int approveCount;
+
+    @ApiModelProperty(value = "신청 상태", required = true)
+    private State state;
 
     @ApiModelProperty(value = "신청자", required = true)
     private UserDto user;
