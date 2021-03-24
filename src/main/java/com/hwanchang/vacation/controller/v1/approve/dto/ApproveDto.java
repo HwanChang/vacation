@@ -18,7 +18,7 @@ public class ApproveDto {
     private Long approveId;
 
     @ApiModelProperty(value = "결재 여부", required = true)
-    private boolean isApprove;
+    private boolean approved;
 
     @ApiModelProperty(value = "결재 단계", required = true)
     private int level;

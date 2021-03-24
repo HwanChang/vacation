@@ -23,7 +23,7 @@ public class Approve extends BaseTimeEntity {
     private Long approveId;
 
     @Column(nullable = false)
-    private boolean isApprove;
+    private boolean approved;
 
     @Column(nullable = false)
     private int level;
@@ -40,19 +40,19 @@ public class Approve extends BaseTimeEntity {
         this(null, false, level, user, application);
     }
 
-    public Approve(Long approveId, boolean isApprove, int level, User user, Application application) {
+    public Approve(Long approveId, boolean approved, int level, User user, Application application) {
         checkNotNull(user, "user must be provided.");
         checkNotNull(application, "application must be provided.");
 
         this.approveId = approveId;
-        this.isApprove = isApprove;
+        this.approved = approved;
         this.level = level;
         this.user = user;
         this.application = application;
     }
 
     public void approve() {
-        this.isApprove = true;
+        this.approved = true;
     }
 
 }
