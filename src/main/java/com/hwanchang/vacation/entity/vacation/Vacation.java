@@ -3,6 +3,7 @@ package com.hwanchang.vacation.entity.vacation;
 import com.hwanchang.vacation.entity.BaseTimeEntity;
 import com.hwanchang.vacation.entity.application.Application;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+@DynamicUpdate
 @Entity
 @EqualsAndHashCode(of = "vacationId", callSuper = false)
 @Getter

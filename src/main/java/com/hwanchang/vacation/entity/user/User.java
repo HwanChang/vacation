@@ -5,6 +5,7 @@ import com.hwanchang.vacation.entity.application.Application;
 import com.hwanchang.vacation.entity.approve.Approve;
 import com.hwanchang.vacation.security.Jwt;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ import static java.time.LocalDateTime.now;
 import static java.util.regex.Pattern.matches;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+@DynamicUpdate
 @Entity
 @EqualsAndHashCode(of = "userId", callSuper = false)
 @Getter
