@@ -21,7 +21,7 @@ public class ApproveService {
 
     @Transactional
     public Optional<Application> approve(Long applicationId, Long userId) {
-        return approveRepository.findByApplicationApplicationIdAndUserUserIdAndApplicationState(applicationId, userId, State.RUNNING)
+        return approveRepository.findByApplicationApplicationIdAndUserUserIdAndApplicationStateAndApprovedIsFalse(applicationId, userId, State.RUNNING)
                 .map(approve -> {
                     approve.approve();
                     return applicationRepository.findById(applicationId)

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ApproveRepository extends JpaRepository<Approve, Long> {
 
-    Optional<Approve> findByApplicationApplicationIdAndUserUserIdAndApplicationState(Long applicationId, Long userId, State state);
+    Optional<Approve> findByApplicationApplicationIdAndUserUserIdAndApplicationStateAndApprovedIsFalse(Long applicationId, Long userId, State state);
 
     List<Approve> findAllByUserUserId(Long userId);
 
