@@ -40,7 +40,8 @@ public class Approve extends BaseTimeEntity {
         this(null, false, level, user, application);
     }
 
-    public Approve(Long approveId, boolean approved, int level, User user, Application application) {
+    @Builder
+    private Approve(Long approveId, boolean approved, int level, User user, Application application) {
         checkNotNull(user, "user must be provided.");
         checkNotNull(application, "application must be provided.");
 

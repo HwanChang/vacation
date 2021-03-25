@@ -38,7 +38,8 @@ public class Vacation extends BaseTimeEntity {
         this(null, date, reason, application);
     }
 
-    public Vacation(Long vacationId, LocalDate date, String reason, Application application) {
+    @Builder
+    private Vacation(Long vacationId, LocalDate date, String reason, Application application) {
         checkNotNull(date, "date must be provided.");
         checkArgument(isNotEmpty(reason), "reason must be provided.");
         checkArgument(

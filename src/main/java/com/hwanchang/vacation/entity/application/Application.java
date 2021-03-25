@@ -49,7 +49,8 @@ public class Application extends BaseTimeEntity {
         this(null, 1, approveCount, State.RUNNING, user);
     }
 
-    public Application(Long applicationId, int level, int approveCount, State state, User user) {
+    @Builder
+    private Application(Long applicationId, int level, int approveCount, State state, User user) {
         checkNotNull(user, "user must be provided.");
 
         this.applicationId = applicationId;

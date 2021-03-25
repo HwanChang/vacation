@@ -57,7 +57,8 @@ public class User extends BaseTimeEntity {
         this(null, email, name, password, phone, 0, null);
     }
 
-    public User(Long userId, String email, String name, String password, String phone, int loginCount, LocalDateTime lastLoginAt) {
+    @Builder
+    private User(Long userId, String email, String name, String password, String phone, int loginCount, LocalDateTime lastLoginAt) {
         checkArgument(isNotEmpty(email), "email must be provided.");
         checkArgument(
                 email.length() >= 4 && email.length() <= 50,
