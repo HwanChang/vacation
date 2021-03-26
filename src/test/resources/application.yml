@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: vacation
+jwt:
+  token:
+    header: x-access-token
+    issuer: vacation
+    secret: b213506c-51d3-41c8-a4aa-2248015f0e52
+    expirationTime: 0
