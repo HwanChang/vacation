@@ -1,16 +1,16 @@
 package com.hwanchang.vacation.controller.v1.vacation.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
+@AllArgsConstructor
 public class VacationRequest {
 
     @ApiModelProperty(value = "휴가 날짜", required = true)

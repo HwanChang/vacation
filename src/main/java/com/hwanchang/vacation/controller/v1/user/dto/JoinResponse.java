@@ -2,11 +2,13 @@ package com.hwanchang.vacation.controller.v1.user.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Getter
+@Setter
 @ToString
 public class JoinResponse {
 

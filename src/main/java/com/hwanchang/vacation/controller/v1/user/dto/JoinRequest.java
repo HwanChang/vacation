@@ -1,12 +1,11 @@
 package com.hwanchang.vacation.controller.v1.user.dto;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
-@Setter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JoinRequest {
 
     @ApiModelProperty(value = "이메일", required = true)

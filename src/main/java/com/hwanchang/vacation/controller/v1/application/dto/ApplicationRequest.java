@@ -4,13 +4,11 @@ import com.hwanchang.vacation.controller.v1.approve.dto.ApproveRequest;
 import com.hwanchang.vacation.controller.v1.vacation.dto.VacationRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
 public class ApplicationRequest {
 
