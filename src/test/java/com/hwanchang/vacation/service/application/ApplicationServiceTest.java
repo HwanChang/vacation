@@ -4,122 +4,105 @@ import com.hwanchang.vacation.controller.v1.approve.dto.ApproveRequest;
 import com.hwanchang.vacation.controller.v1.vacation.dto.VacationRequest;
 import com.hwanchang.vacation.entity.application.Application;
 import com.hwanchang.vacation.entity.application.State;
-import com.hwanchang.vacation.entity.approve.Approve;
 import com.hwanchang.vacation.entity.user.User;
-import com.hwanchang.vacation.entity.vacation.Vacation;
-import com.hwanchang.vacation.service.user.UserService;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import com.hwanchang.vacation.repository.appclication.ApplicationRepository;
+import com.hwanchang.vacation.repository.user.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 
-@Slf4j
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ExtendWith(MockitoExtension.class)
 class ApplicationServiceTest {
 
-    @Autowired
+    @InjectMocks
     private ApplicationService applicationService;
 
-    @Autowired
-    private UserService userService;
+    @Mock
+    private ApplicationRepository applicationRepository;
 
-    List<LocalDate> vacationDates;
+    @Mock
+    private UserRepository userRepository;
 
-    String reason;
+    VacationRequest vacationRequest = new VacationRequest(
+            List.of(LocalDate.of(2021, 3, 26), LocalDate.of(2021, 3, 27)),
+            "개인 사유"
+    );
 
-    VacationRequest vacationRequest = new VacationRequest();
+    List<ApproveRequest> approveRequests = new ArrayList<>(
+            List.of(new ApproveRequest(2L, 1), new ApproveRequest(3L, 2))
+    );
 
-    List<ApproveRequest> approveRequests = new ArrayList<>();
+    User expectedUser;
 
-    User test01 = new User("test01@gmail.com", "test01", "P@ssword1", "010-1111-1111");
-    User test02 = new User("test02@gmail.com", "test02", "P@ssword2", "010-2222-2222");
-    User test03 = new User("test03@gmail.com", "test03", "P@ssword3", "010-3333-3333");
+    Application expectedApplication;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
-        vacationDates = List.of(LocalDate.of(2021, 3, 9), LocalDate.of(2021, 3, 10));
-        reason = "개인 사유";
-        vacationRequest.setDates(vacationDates);
-        vacationRequest.setReason(reason);
-        ApproveRequest firstApproval = new ApproveRequest();
-        firstApproval.setApproverId(2L);
-        firstApproval.setLevel(1);
-        ApproveRequest secondApproval = new ApproveRequest();
-        secondApproval.setApproverId(3L);
-        secondApproval.setLevel(2);
-        approveRequests.addAll(List.of(firstApproval, secondApproval));
+        expectedUser = User.builder()
+                .userId(1L)
+                .email("hwanchang.dev@gmail.com")
+                .name("박환창")
+                .password("P@ssword1")
+                .phone("010-0000-0000")
+                .loginCount(0)
+                .lastLoginAt(null)
+                .build();
+
+        expectedApplication = Application.builder()
+                .applicationId(1L)
+                .level(1)
+                .approveCount(2)
+                .state(State.RUNNING)
+                .user(expectedUser)
+                .build();
     }
 
     @Test
-    @Order(1)
     void 휴가_신청_등록() {
         //given
-        User requestUser = userService.join(test01.getEmail(), test01.getName(), test01.getPassword(), test01.getPhone());
-        User firstApprovalUser = userService.join(test02.getEmail(), test02.getName(), test02.getPassword(), test02.getPhone());
-        User secondApprovalUser = userService.join(test03.getEmail(), test03.getName(), test03.getPassword(), test03.getPhone());
-
-        log.info("RequestUser: {}", requestUser);
-        log.info("FirstApprovalUser: {}", firstApprovalUser);
-        log.info("SecondApprovalUser: {}", secondApprovalUser);
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(expectedUser));
+        given(applicationRepository.save(any(Application.class))).willReturn(expectedApplication);
 
         //when
         Application application = applicationService.save(1L, vacationRequest, approveRequests);
 
         //then
         assertThat(application).isNotNull();
+        assertThat(application.getApplicationId()).isEqualTo(1L);
         assertThat(application.getLevel()).isEqualTo(1);
         assertThat(application.getApproveCount()).isEqualTo(2);
         assertThat(application.getState()).isEqualTo(State.RUNNING);
-        assertThat(application.getUser()).isEqualTo(requestUser);
-        assertThat(application.getVacations().stream().map(Vacation::getDate)).containsAll(vacationDates);
-        assertThat(application.getVacations().stream().map(Vacation::getReason)).contains(reason);
-        assertThat(application.getApproves()).hasSize(2);
-        assertThat(application.getApproves().stream().map(Approve::getUser)).contains(firstApprovalUser);
-        assertThat(application.getApproves().stream().map(Approve::getUser)).contains(secondApprovalUser);
-
-        log.info("Application: {}", application);
     }
 
     @Test
-    @Transactional
-    @Order(2)
     void 내_휴가_전체조회() {
         //given
-        User requestUser = userService.findById(1L).orElse(null);
-        User firstApprovalUser = userService.findById(2L).orElse(null);
-        User secondApprovalUser = userService.findById(3L).orElse(null);
-
-        log.info("RequestUser: {}", requestUser);
-        log.info("FirstApprovalUser: {}", firstApprovalUser);
-        log.info("SecondApprovalUser: {}", secondApprovalUser);
+        given(applicationRepository.findAllByUserUserId(1L)).willReturn(singletonList(expectedApplication));
 
         //when
         List<Application> applications = applicationService.findAll(1L);
 
         //then
-        assertThat(applications).hasSizeGreaterThan(0);
-        for (Application application : applications) {
-            assertThat(application.getLevel()).isEqualTo(1);
-            assertThat(application.getApproveCount()).isEqualTo(2);
-            assertThat(application.getState()).isEqualTo(State.RUNNING);
-            assertThat(application.getUser()).isEqualTo(requestUser);
-            assertThat(application.getVacations().stream().map(Vacation::getDate)).containsAll(vacationDates);
-            assertThat(application.getVacations().stream().map(Vacation::getReason)).contains(reason);
-            assertThat(application.getApproves()).hasSize(2);
-            assertThat(application.getApproves().stream().map(Approve::getUser)).contains(firstApprovalUser);
-            assertThat(application.getApproves().stream().map(Approve::getUser)).contains(secondApprovalUser);
-
-            log.info("Application: {}", application);
-        }
+        assertThat(applications).isNotNull();
+        assertThat(applications.size()).isEqualTo(1);
+        assertThat(applications.get(0).getApplicationId()).isEqualTo(1L);
+        assertThat(applications.get(0).getLevel()).isEqualTo(1);
+        assertThat(applications.get(0).getApproveCount()).isEqualTo(2);
+        assertThat(applications.get(0).getState()).isEqualTo(State.RUNNING);
     }
 
 }
