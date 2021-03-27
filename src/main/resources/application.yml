@@ -1,37 +1,69 @@
 spring:
-  application:
-    name: vacation
-  messages:
-    basename: i18n/messages
-    encoding: UTF-8
-    cache-duration: PT1H
-  profiles:
-    active: local
-  jpa:
-    show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    open-in-view: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  datasource:
-    platform: h2
-    driver-class-name: org.h2.Driver
-    url: "jdbc:h2:mem:vacation;MODE=MYSQL;DB_CLOSE_DELAY=-1"
-    username: sa
-    password:
-    hikari:
-      minimum-idle: 1
-      maximum-pool-size: 5
-      pool-name: H2_DB
-server:
-  port: 8080
-jwt:
-  token:
-    header: x-access-token
-    issuer: vacation
-    secret: b213506c-51d3-41c8-a4aa-2248015f0e52
-    expirationTime: 0
+  config:
+    activate:
+      on-profile: prod
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+  file:
+    name: /log/debug.log
+  exception-conversion-word: "%wEx"
+  logback:
+    rollingpolicy:
+      file-name-pattern: "%d{yyyy-MM}/debug.%d{yyyy-MM-dd}.%i.log.gz"
+      max-file-size: 10MB
+      max-history: 5
+  pattern:
+    dateformat: "yyyy-MM-dd HH:mm:ss.SSS"
+    level: "%5p"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+logging:
+  level:
+    root: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+  file:
+    name: /log/debug.log
+  exception-conversion-word: "%wEx"
+  logback:
+    rollingpolicy:
+      file-name-pattern: "%d{yyyy-MM}/debug.%d{yyyy-MM-dd}.%i.log.gz"
+      max-file-size: 10MB
+      max-history: 1
+  pattern:
+    dateformat: "yyyy-MM-dd HH:mm:ss.SSS"
+    level: "%5p"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+  file:
+    name: /log/debug.log
+  exception-conversion-word: "%wEx"
+  logback:
+    rollingpolicy:
+      file-name-pattern: "%d{yyyy-MM}/debug.%d{yyyy-MM-dd}.%i.log.gz"
+      max-file-size: 10MB
+      max-history: 1
+  pattern:
+    dateformat: "yyyy-MM-dd HH:mm:ss.SSS"
+    level: "%5p"
