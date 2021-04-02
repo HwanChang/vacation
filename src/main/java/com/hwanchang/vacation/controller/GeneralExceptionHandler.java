@@ -20,9 +20,13 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Slf4j
 public class GeneralExceptionHandler {
 
+    private ResponseEntity<?> response(String errorMessage, HttpStatus httpStatus) {
+        return new ResponseEntity<>(new Error(errorMessage), httpStatus);
+    }
+
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<?> handleNotFoundException(Exception e) {
-        return new ResponseEntity<>(e, HttpStatus.NOT_FOUND);
+        return response(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({
@@ -32,34 +36,34 @@ public class GeneralExceptionHandler {
     })
     public ResponseEntity<?> handleBadRequestException(Exception e) {
         log.debug("Bad request exception occurred: {}", e.getMessage(), e);
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        return response(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMediaTypeException.class)
     public ResponseEntity<?> handleHttpMediaTypeException(Exception e) {
-        return new ResponseEntity<>(e, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return response(e.getMessage(), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<?> handleMethodNotAllowedException(Exception e) {
-        return new ResponseEntity<>(e, HttpStatus.METHOD_NOT_ALLOWED);
+        return response(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(ServiceRuntimeException.class)
     public ResponseEntity<?> handleServiceRuntimeException(ServiceRuntimeException e) {
         if (e instanceof NotFoundException)
-            return new ResponseEntity<>(e, HttpStatus.NOT_FOUND);
+            return response(e.getMessage(), HttpStatus.NOT_FOUND);
         if (e instanceof UnauthorizedException)
-            return new ResponseEntity<>(e, HttpStatus.UNAUTHORIZED);
+            return response(e.getMessage(), HttpStatus.UNAUTHORIZED);
 
         log.warn("Unexpected service exception occurred: {}", e.getMessage(), e);
-        return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        return response(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({Exception.class, RuntimeException.class})
     public ResponseEntity<?> handleException(Exception e) {
         log.error("Unexpected exception occurred: {}", e.getMessage(), e);
-        return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        return response(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
