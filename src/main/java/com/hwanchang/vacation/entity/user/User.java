@@ -3,6 +3,7 @@ package com.hwanchang.vacation.entity.user;
 import com.hwanchang.vacation.entity.BaseTimeEntity;
 import com.hwanchang.vacation.entity.application.Application;
 import com.hwanchang.vacation.entity.approve.Approve;
+import com.hwanchang.vacation.entity.confirm.Confirm;
 import com.hwanchang.vacation.security.Jwt;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -52,6 +53,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Approve> approves = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Confirm> confirmList = new ArrayList<>();
 
     public User(String email, String name, String password, String phone) {
         this(null, email, name, password, phone, 0, null);

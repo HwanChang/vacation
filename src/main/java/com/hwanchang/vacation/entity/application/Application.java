@@ -2,6 +2,7 @@ package com.hwanchang.vacation.entity.application;
 
 import com.hwanchang.vacation.entity.BaseTimeEntity;
 import com.hwanchang.vacation.entity.approve.Approve;
+import com.hwanchang.vacation.entity.confirm.Confirm;
 import com.hwanchang.vacation.entity.user.User;
 import com.hwanchang.vacation.entity.vacation.Vacation;
 import lombok.*;
@@ -45,6 +46,9 @@ public class Application extends BaseTimeEntity {
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Approve> approves = new ArrayList<>();
 
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Confirm confirm;
+
     public Application(int approveCount, User user) {
         this(null, 1, approveCount, State.RUNNING, user);
     }
@@ -58,6 +62,7 @@ public class Application extends BaseTimeEntity {
         this.approveCount = approveCount;
         this.state = state;
         this.user = user;
+        this.confirm = new Confirm(this);
     }
 
     public void addVacations(List<Vacation> vacations) {
