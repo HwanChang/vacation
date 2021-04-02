@@ -2,7 +2,9 @@ package com.hwanchang.vacation.entity.user;
 
 public enum Role {
 
-    USER("ROLE_USER");
+    USER("ROLE_USER"),
+
+    MANAGER("ROLE_MANAGER");
 
     private final String value;
 
