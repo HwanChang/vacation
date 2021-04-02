@@ -24,7 +24,7 @@ public class Vacation extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vacationId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private LocalDate date;
 
     @Column(nullable = false, length = 500)
