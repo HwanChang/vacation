@@ -46,4 +46,9 @@ public class Confirm extends BaseTimeEntity {
         this.user = user;
     }
 
+    public void confirm(User user) {
+        this.confirmed = true;
+        this.user = user;
+    }
+
 }
