@@ -1,8 +1,8 @@
 package com.hwanchang.vacation.controller.v1.confirm.dto;
 
-import com.hwanchang.vacation.entity.application.Application;
+import com.hwanchang.vacation.controller.v1.application.dto.ApplicationDto;
+import com.hwanchang.vacation.controller.v1.user.dto.UserDto;
 import com.hwanchang.vacation.entity.confirm.Confirm;
-import com.hwanchang.vacation.entity.user.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,13 +22,16 @@ public class ConfirmDto {
     private boolean confirmed;
 
     @ApiModelProperty(value = "신청서", required = true)
-    private Application application;
+    private ApplicationDto application;
 
     @ApiModelProperty(value = "처리자", required = true)
-    private User user;
+    private UserDto user;
 
     public ConfirmDto(Confirm source) {
         copyProperties(source, this);
+
+        this.application = new ApplicationDto(source.getApplication());
+        this.user = new UserDto(source.getApplication().getUser());
     }
 
 }
