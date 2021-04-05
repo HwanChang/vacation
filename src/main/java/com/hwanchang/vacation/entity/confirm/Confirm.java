@@ -37,6 +37,7 @@ public class Confirm extends BaseTimeEntity {
         this(null, false, application, null);
     }
 
+    @Builder
     private Confirm(Long confirmId, boolean confirmed, Application application, User user) {
         checkNotNull(application, "application must be provided.");
 
