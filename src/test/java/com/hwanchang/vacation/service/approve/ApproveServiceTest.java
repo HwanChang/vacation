@@ -33,15 +33,13 @@ class ApproveServiceTest {
     @Mock
     private ApplicationRepository applicationRepository;
 
-    User expectedRequester;
+    private User expectedApprover;
 
-    User expectedApprover;
-
-    Application expectedApplication;
+    private Application expectedApplication;
 
     @BeforeEach
     void setUp() {
-        expectedRequester = User.builder()
+        User expectedRequester = User.builder()
                 .userId(1L)
                 .email("hwanchang.dev@gmail.com")
                 .name("박환창")

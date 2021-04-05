@@ -37,18 +37,18 @@ class ApplicationServiceTest {
     @Mock
     private UserRepository userRepository;
 
-    VacationRequest vacationRequest = new VacationRequest(
+    private VacationRequest vacationRequest = new VacationRequest(
             List.of(LocalDate.of(2021, 3, 26), LocalDate.of(2021, 3, 27)),
             "개인 사유"
     );
 
-    List<ApproveRequest> approveRequests = new ArrayList<>(
+    private List<ApproveRequest> approveRequests = new ArrayList<>(
             List.of(new ApproveRequest(2L, 1), new ApproveRequest(3L, 2))
     );
 
-    User expectedUser;
+    private User expectedUser;
 
-    Application expectedApplication;
+    private Application expectedApplication;
 
     @BeforeEach
     void setUp() {
