@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,10 @@ public class ConfirmService {
     private final ConfirmRepository confirmRepository;
 
     private final UserRepository userRepository;
+
+    public List<Confirm> findAll() {
+        return confirmRepository.findAll();
+    }
 
     @Transactional
     public Optional<Confirm> confirm(Long applicationId, Long userId) {
