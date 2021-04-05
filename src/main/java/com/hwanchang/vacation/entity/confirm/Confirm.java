@@ -29,7 +29,7 @@ public class Confirm extends BaseTimeEntity {
     @JoinColumn(name = "application_id")
     private Application application;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private User user;
 

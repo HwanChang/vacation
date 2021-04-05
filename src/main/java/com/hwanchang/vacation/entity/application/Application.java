@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @EqualsAndHashCode(of = "applicationId", callSuper = false)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = {"user", "vacations", "approves"})
+@ToString(exclude = {"user", "vacations", "approves", "confirm"})
 public class Application extends BaseTimeEntity {
 
     @Id

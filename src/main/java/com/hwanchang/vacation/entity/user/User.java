@@ -25,7 +25,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @EqualsAndHashCode(of = "userId", callSuper = false)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = {"applications", "approves"})
+@ToString(exclude = {"applications", "approves", "confirmList"})
 public class User extends BaseTimeEntity {
 
     @Id
