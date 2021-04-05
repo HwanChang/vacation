@@ -1,7 +1,6 @@
 package com.hwanchang.vacation.controller.v1.application.dto;
 
 import com.hwanchang.vacation.entity.application.Application;
-import com.hwanchang.vacation.entity.application.State;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,10 +23,12 @@ public class ApplicationDto {
     private int approveCount;
 
     @ApiModelProperty(value = "신청 상태", required = true)
-    private State state;
+    private String state;
 
     public ApplicationDto(Application source) {
         copyProperties(source, this);
+
+        this.state = source.getState().value();
     }
 
 }
