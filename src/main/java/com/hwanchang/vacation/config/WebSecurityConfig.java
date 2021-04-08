@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -77,12 +78,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
             .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "**").permitAll()
                 .antMatchers("/api/auth").permitAll()
                 .antMatchers("/api/v?/user/exists").permitAll()
                 .antMatchers("/api/v?/user/join").permitAll()
                 .antMatchers("/api/v?/**/confirm*").hasRole(Role.MANAGER.name())
                 .antMatchers("/api/v?/**").hasRole(Role.USER.name())
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
             .formLogin()
                 .disable();
