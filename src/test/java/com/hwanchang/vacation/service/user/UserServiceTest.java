@@ -57,7 +57,6 @@ class UserServiceTest {
                 .build();
     }
 
-
     @Test
     @Rollback(value = false)
     void 사용자_회원가입() {
