@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import static java.util.regex.Pattern.matches;
 import static java.util.stream.Collectors.toList;
 
 @Api(tags = {"사용자 APIs"})
@@ -54,7 +56,7 @@ public class UserRestController {
             @RequestBody @ApiParam(value = "example: {\"email\": \"test@gmail.com\"}", example = "{\"email\": \"test@gmail.com\"}") Map<String, String> request
     ) {
         return ResponseEntity.ok(
-                userService.findByEmail(request.get("email")).isPresent()
+                request.get("email").equals("") || userService.findByEmail(request.get("email")).isPresent()
         );
     }
 
