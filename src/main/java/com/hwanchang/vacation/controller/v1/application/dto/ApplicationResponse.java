@@ -2,14 +2,15 @@ package com.hwanchang.vacation.controller.v1.application.dto;
 
 import com.hwanchang.vacation.controller.v1.approve.dto.ApproveDto;
 import com.hwanchang.vacation.controller.v1.user.dto.UserDto;
-import com.hwanchang.vacation.controller.v1.vacation.dto.VacationDto;
 import com.hwanchang.vacation.entity.application.Application;
 import com.hwanchang.vacation.entity.application.State;
+import com.hwanchang.vacation.entity.vacation.Vacation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -35,19 +36,26 @@ public class ApplicationResponse {
     @ApiModelProperty(value = "신청자", required = true)
     private UserDto user;
 
-    @ApiModelProperty(value = "신청자", required = true)
-    private List<VacationDto> vacation;
+    @ApiModelProperty(value = "휴가 날짜", required = true)
+    private List<LocalDate> dates;
 
-    @ApiModelProperty(value = "신청자", required = true)
+    @ApiModelProperty(value = "사유", required = true)
+    private String reason;
+
+    @ApiModelProperty(value = "결재자", required = true)
     private List<ApproveDto> approve;
 
     public ApplicationResponse(Application source) {
         copyProperties(source, this);
 
         this.user = new UserDto(source.getUser());
-        this.vacation = source.getVacations().stream()
-                .map(VacationDto::new)
+        this.dates = source.getVacations().stream()
+                .map(Vacation::getDate)
                 .collect(toList());
+        this.reason = source.getVacations().stream()
+                .map(Vacation::getReason)
+                .distinct()
+                .collect(toList()).get(0);
         this.approve = source.getApproves().stream()
                 .map(ApproveDto::new)
                 .collect(toList());
