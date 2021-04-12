@@ -4,7 +4,9 @@ public enum Role {
 
     USER("ROLE_USER"),
 
-    MANAGER("ROLE_MANAGER");
+    MANAGER("ROLE_MANAGER"),
+
+    ADMIN("ROLE_ADMIN");
 
     private final String value;
 
