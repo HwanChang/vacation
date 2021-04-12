@@ -1,11 +1,16 @@
 package com.hwanchang.vacation.controller.v1.application.dto;
 
 import com.hwanchang.vacation.entity.application.Application;
+import com.hwanchang.vacation.entity.vacation.Vacation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Getter
@@ -25,10 +30,23 @@ public class ApplicationDto {
     @ApiModelProperty(value = "신청 상태", required = true)
     private String state;
 
+    @ApiModelProperty(value = "휴가 날짜", required = true)
+    private List<LocalDate> dates;
+
+    @ApiModelProperty(value = "사유", required = true)
+    private String reason;
+
     public ApplicationDto(Application source) {
         copyProperties(source, this);
 
         this.state = source.getState().value();
+        this.dates = source.getVacations().stream()
+                .map(Vacation::getDate)
+                .collect(toList());
+        this.reason = source.getVacations().stream()
+                .map(Vacation::getReason)
+                .distinct()
+                .collect(toList()).get(0);
     }
 
 }

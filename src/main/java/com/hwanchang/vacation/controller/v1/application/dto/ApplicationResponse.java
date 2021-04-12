@@ -42,7 +42,7 @@ public class ApplicationResponse {
     private String reason;
 
     @ApiModelProperty(value = "결재자", required = true)
-    private List<ApproveDto> approve;
+    private List<ApproveDto> approves;
 
     public ApplicationResponse(Application source) {
         copyProperties(source, this);
@@ -56,7 +56,7 @@ public class ApplicationResponse {
                 .map(Vacation::getReason)
                 .distinct()
                 .collect(toList()).get(0);
-        this.approve = source.getApproves().stream()
+        this.approves = source.getApproves().stream()
                 .map(ApproveDto::new)
                 .collect(toList());
     }
