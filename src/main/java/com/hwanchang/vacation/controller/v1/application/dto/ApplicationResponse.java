@@ -3,7 +3,6 @@ package com.hwanchang.vacation.controller.v1.application.dto;
 import com.hwanchang.vacation.controller.v1.approve.dto.ApproveDto;
 import com.hwanchang.vacation.controller.v1.user.dto.UserDto;
 import com.hwanchang.vacation.entity.application.Application;
-import com.hwanchang.vacation.entity.application.State;
 import com.hwanchang.vacation.entity.vacation.Vacation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -31,7 +30,7 @@ public class ApplicationResponse {
     private int approveCount;
 
     @ApiModelProperty(value = "신청 상태", required = true)
-    private State state;
+    private String state;
 
     @ApiModelProperty(value = "신청자", required = true)
     private UserDto user;
@@ -48,6 +47,7 @@ public class ApplicationResponse {
     public ApplicationResponse(Application source) {
         copyProperties(source, this);
 
+        this.state = source.getState().value();
         this.user = new UserDto(source.getUser());
         this.dates = source.getVacations().stream()
                 .map(Vacation::getDate)
