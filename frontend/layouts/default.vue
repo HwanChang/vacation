@@ -1,0 +1,131 @@
+<template>
+  <v-app
+    style="
+      height: 50%;
+      width: 100%;
+      position: absolute;
+      background-color: #424242;
+    "
+  >
+    <v-navigation-drawer
+      color="#222222"
+      app
+      clipped
+    >
+      <v-container fluid grid-list-md>
+        <v-layout>
+          <v-flex>
+            <router-link
+              to="/home"
+            >
+              <v-img
+                :src="require('@/static/logo.svg')"
+                max-width="220px"
+                max-height="40px"
+              />
+            </router-link>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <v-divider />
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item
+          v-for="(item, i) in filteredManager"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+          active-class="primary"
+        >
+          <v-list-item-action>
+            <v-icon style="color: white">
+              {{ item.icon }}
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title
+              style="color: white"
+              v-text="item.title"
+            />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-main>
+      <v-container fluid fill-height>
+        <nuxt />
+        <snackbar />
+      </v-container>
+    </v-main>
+    <v-footer
+      inset
+      app
+      color="white"
+    >
+      <v-spacer />
+      <span>&copy; {{ new Date().getFullYear() }} <a href="https://github.com/HwanChang" target="_blank">@HwanChang</a></span>
+    </v-footer>
+  </v-app>
+</template>
+
+<script>
+export default {
+  name: 'Default',
+  props: {
+    expandOnHover: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      title: '휴가 관리 시스템',
+      clipped: true,
+      drawer: false,
+      fixed: false,
+      miniVariant: false,
+      right: true,
+      items: [
+        {
+          icon: 'mdi-account',
+          title: '내 정보',
+          to: '/profile'
+        },
+        {
+          icon: 'mdi-clipboard-text-multiple-outline',
+          title: '휴가 신청 현황',
+          to: '/request/list'
+        },
+        {
+          icon: 'mdi-beach',
+          title: '휴가 신청',
+          to: '/request'
+        },
+        {
+          title: '결재',
+          icon: 'mdi-clipboard-text-outline',
+          to: '/approve'
+        },
+        {
+          title: '처리',
+          icon: 'mdi-file-check-outline',
+          to: '/confirm'
+        }
+      ]
+    }
+  },
+  computed: {
+    filteredManager () {
+      return this.items.filter(item => ((item.to === '/confirm' && this.$store.state.user.user.roles.includes('MANAGER')) || (item.to !== '/confirm')))
+    }
+  },
+  created () {
+    if (!this.$store.state.user.token) {
+      this.$router.push('/')
+    }
+  }
+}
+</script>
