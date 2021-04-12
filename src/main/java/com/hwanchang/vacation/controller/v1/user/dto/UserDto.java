@@ -1,5 +1,6 @@
 package com.hwanchang.vacation.controller.v1.user.dto;
 
+import com.hwanchang.vacation.entity.user.Role;
 import com.hwanchang.vacation.entity.user.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -23,6 +25,9 @@ public class UserDto {
 
     @ApiModelProperty(value = "사용자명", required = true)
     private String name;
+
+    @ApiModelProperty(value = "역할", required = true)
+    private List<Role> roles;
 
     @ApiModelProperty(value = "전화번호", required = true)
     private String phone;
