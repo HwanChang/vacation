@@ -41,6 +41,10 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, length = 100)
     private String password;
 
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<Role> roles;
+
     @Column(nullable = false, length = 13)
     private String phone;
 
@@ -58,11 +62,11 @@ public class User extends BaseTimeEntity {
     private List<Confirm> confirmList = new ArrayList<>();
 
     public User(String email, String name, String password, String phone) {
-        this(null, email, name, password, phone, 0, null);
+        this(null, email, name, List.of(Role.USER), password, phone, 0, null);
     }
 
     @Builder
-    private User(Long userId, String email, String name, String password, String phone, int loginCount, LocalDateTime lastLoginAt) {
+    private User(Long userId, String email, String name, List<Role> roles, String password, String phone, int loginCount, LocalDateTime lastLoginAt) {
         checkArgument(isNotEmpty(email), "email must be provided.");
         checkArgument(
                 email.length() >= 4 && email.length() <= 50,
@@ -81,6 +85,7 @@ public class User extends BaseTimeEntity {
         this.userId = userId;
         this.email = email;
         this.name = name;
+        this.roles = roles;
         this.password = password;
         this.phone = phone;
         this.loginCount = loginCount;

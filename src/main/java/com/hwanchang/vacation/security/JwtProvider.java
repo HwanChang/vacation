@@ -14,8 +14,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import static java.util.stream.Collectors.joining;
 import static org.apache.commons.lang3.ClassUtils.isAssignable;
-import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
+import static org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList;
 
 @RequiredArgsConstructor
 @Component
@@ -42,10 +43,16 @@ public class JwtProvider implements AuthenticationProvider {
             JwtToken authenticated = new JwtToken(
                     new JwtAuthentication(user.getUserId(), user.getEmail()),
                     null,
-                    createAuthorityList(Role.USER.value())
+                    commaSeparatedStringToAuthorityList(
+                            user.getRoles().stream().map(Role::value).collect(joining(","))
+                    )
             );
-            String token = user.createToken(jwt, new String[]{Role.USER.value()});
-            authenticated.setDetails(new AuthenticationResult(token, user));
+            authenticated.setDetails(
+                    new AuthenticationResult(
+                            user.createToken(jwt, user.getRoles().stream().map(Role::value).toArray(String[]::new)),
+                            user
+                    )
+            );
             return authenticated;
         } catch (NotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage());

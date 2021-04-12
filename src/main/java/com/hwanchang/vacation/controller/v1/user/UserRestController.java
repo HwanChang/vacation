@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import static java.util.regex.Pattern.matches;
 import static java.util.stream.Collectors.toList;
 
 @Api(tags = {"사용자 APIs"})
@@ -46,7 +44,7 @@ public class UserRestController {
                 joinRequest.getPhone()
         );
 
-        String token = user.createToken(jwt, new String[]{Role.USER.value()});
+        String token = user.createToken(jwt, user.getRoles().stream().map(Role::value).toArray(String[]::new));
         return new ResponseEntity<>(new JoinResponse(token, new UserDto(user)), HttpStatus.CREATED);
     }
 
