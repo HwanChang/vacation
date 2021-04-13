@@ -32,7 +32,10 @@ export default {
       fixed: false
     }
   },
-  methods: {
+  created () {
+    if (localStorage.getItem('token')) {
+      this.$router.push('/profile')
+    }
   }
 }
 </script>

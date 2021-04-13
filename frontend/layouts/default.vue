@@ -119,12 +119,29 @@ export default {
   },
   computed: {
     filteredManager () {
-      return this.items.filter(item => ((item.to === '/confirm' && this.$store.state.user.user.roles.includes('MANAGER')) || (item.to !== '/confirm')))
+      return this.getUser()
     }
   },
   created () {
-    if (!this.$store.state.user.token) {
+    if (localStorage.getItem('token')) {
+      this.$axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token')
+    } else {
       this.$router.push('/')
+    }
+  },
+  methods: {
+    getUser () {
+      if (this.$store.state.user.user.roles.length !== 0) {
+        return this.items.filter(item => ((item.to === '/confirm' && this.$store.state.user.user.roles.includes('MANAGER')) || (item.to !== '/confirm')))
+      } else {
+        this.$store.dispatch('user/setUser')
+          .then(() => {
+            return this.items.filter(item => ((item.to === '/confirm' && this.$store.state.user.user.roles.includes('MANAGER')) || (item.to !== '/confirm')))
+          })
+          .catch(({ message }) => {
+            this.$store.dispatch('snackbar/showSnackbar', { snackbarText: message, snackbarColor: 'error' })
+          })
+      }
     }
   }
 }

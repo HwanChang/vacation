@@ -22,7 +22,7 @@
                     md="12"
                   >
                     <v-text-field
-                      v-model="user.email"
+                      v-model="$store.state.user.user.email"
                       prepend-icon="mdi-email"
                       disabled
                     />
@@ -32,7 +32,7 @@
                     md="12"
                   >
                     <v-text-field
-                      v-model="user.name"
+                      v-model="$store.state.user.user.name"
                       :rules="rule.name"
                       :counter="10"
                       prepend-icon="mdi-account-circle"
@@ -43,7 +43,7 @@
                     md="12"
                   >
                     <v-text-field
-                      v-model="user.phone"
+                      v-model="$store.state.user.user.phone"
                       :rules="rule.phone"
                       prepend-icon="mdi-cellphone"
                     />
@@ -74,16 +74,9 @@
 export default {
   data () {
     return {
-      token: '',
       title: {
         info: '내 정보',
         password: '패스워드 변경'
-      },
-      user: {
-        email: '',
-        password: '',
-        name: '',
-        phone: ''
       },
       rule: {
         name: [
@@ -103,18 +96,11 @@ export default {
   head: {
     title: '내 정보'
   },
-  mounted () {
-    this.$axios.get('v1/user').then((res) => {
-      this.user = res.data
-    })
-  },
   methods: {
     async updateProfile () {
-      const name = this.user.name
-      const phone = this.user.phone
-      await this.$axios.patch('v1/user', { name, phone }).then((res) => {
-        this.user.name = res.data.name
-        this.user.phone = res.data.phone
+      await this.$axios.patch('v1/user', { name: this.$store.state.user.user.name, phone: this.$store.state.user.user.phone }).then((res) => {
+        this.$store.state.user.user.name = res.data.name
+        this.$store.state.user.user.phone = res.data.phone
         this.$store.dispatch('snackbar/showSnackbar', { snackbarText: '프로필을 업데이트 했습니다.', snackbarColor: 'success' })
       }).catch((reason) => {
         this.$store.dispatch('snackbar/showSnackbar', { snackbarText: reason, snackbarColor: 'success' })

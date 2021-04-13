@@ -46,6 +46,13 @@ export default {
     base: '/vacation/'
   },
 
+  render: {
+    etag: false,
+    static: {
+      etag: false
+    }
+  },
+
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
