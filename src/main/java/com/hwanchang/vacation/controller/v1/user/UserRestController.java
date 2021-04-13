@@ -1,9 +1,6 @@
 package com.hwanchang.vacation.controller.v1.user;
 
-import com.hwanchang.vacation.controller.v1.user.dto.JoinRequest;
-import com.hwanchang.vacation.controller.v1.user.dto.JoinResponse;
-import com.hwanchang.vacation.controller.v1.user.dto.UpdateRequest;
-import com.hwanchang.vacation.controller.v1.user.dto.UserDto;
+import com.hwanchang.vacation.controller.v1.user.dto.*;
 import com.hwanchang.vacation.entity.user.Role;
 import com.hwanchang.vacation.entity.user.User;
 import com.hwanchang.vacation.error.NotFoundException;
@@ -63,6 +60,17 @@ public class UserRestController {
     public ResponseEntity<UserDto> me(@AuthenticationPrincipal JwtAuthentication authentication) {
         return ResponseEntity.ok(
                 new UserDto(
+                        userService.findById(authentication.userId)
+                                .orElseThrow(() -> new NotFoundException(User.class, authentication.userId))
+                )
+        );
+    }
+
+    @ApiOperation(value = "내 권한 조회")
+    @GetMapping(path = "user/roles")
+    public ResponseEntity<RoleResponse> roles(@AuthenticationPrincipal JwtAuthentication authentication) {
+        return ResponseEntity.ok(
+                new RoleResponse(
                         userService.findById(authentication.userId)
                                 .orElseThrow(() -> new NotFoundException(User.class, authentication.userId))
                 )
