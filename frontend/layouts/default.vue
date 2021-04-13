@@ -53,6 +53,21 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <template #append>
+        <v-list-item @click="logout">
+          <v-list-item-icon>
+            <v-icon
+              color="white"
+              v-text="'mdi-account-off-outline'"
+            />
+          </v-list-item-icon>
+          <v-list-item-content
+            class="white--text text--lighten-5"
+          >
+            로그아웃
+          </v-list-item-content>
+        </v-list-item>
+      </template>
     </v-navigation-drawer>
     <v-main>
       <v-container fluid fill-height>
@@ -130,6 +145,10 @@ export default {
     }
   },
   methods: {
+    logout () {
+      this.$store.dispatch('user/logout')
+      this.$router.push('/')
+    },
     getUser () {
       if (this.$store.state.user.user.roles.length !== 0) {
         return this.items.filter(item => ((item.to === '/confirm' && this.$store.state.user.user.roles.includes('MANAGER')) || (item.to !== '/confirm')))
