@@ -45,3 +45,6 @@ https://hwanchang.github.io/vacation
     
 ## 5. 기술 스택
 ![skill](https://user-images.githubusercontent.com/32251594/114733799-9e2b2580-9d7e-11eb-8015-b22e148c6eee.png)
+
+## 6. ERD
+![erd](https://user-images.githubusercontent.com/32251594/114709021-0cfc8480-9d67-11eb-8caf-021512713333.png)
