@@ -39,11 +39,12 @@ public class UserService {
     public User login(String email, String password) {
         checkNotNull(password, "password must be provided.");
 
-        User user = findByEmail(email)
-                .orElseThrow(() -> new NotFoundException(User.class, email));
-        user.login(passwordEncoder, password);
-        user.afterLoginSuccess();
-        return user;
+        return findByEmail(email)
+                .map(user -> {
+                    user.login(passwordEncoder, password);
+                    user.afterLoginSuccess();
+                    return user;
+                }).orElseThrow(() -> new NotFoundException(User.class, email));
     }
 
     @Transactional
