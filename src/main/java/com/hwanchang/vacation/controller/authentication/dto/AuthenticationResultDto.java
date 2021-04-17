@@ -1,4 +1,4 @@
-package com.hwanchang.vacation.controller.v1.authentication.dto;
+package com.hwanchang.vacation.controller.authentication.dto;
 
 import com.hwanchang.vacation.controller.v1.user.dto.UserDto;
 import com.hwanchang.vacation.security.AuthenticationResult;

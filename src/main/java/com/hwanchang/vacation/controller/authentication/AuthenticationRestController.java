@@ -1,6 +1,6 @@
-package com.hwanchang.vacation.controller.v1.authentication;
+package com.hwanchang.vacation.controller.authentication;
 
-import com.hwanchang.vacation.controller.v1.authentication.dto.AuthenticationResultDto;
+import com.hwanchang.vacation.controller.authentication.dto.AuthenticationResultDto;
 import com.hwanchang.vacation.error.UnauthorizedException;
 import com.hwanchang.vacation.security.AuthenticationRequest;
 import com.hwanchang.vacation.security.AuthenticationResult;
