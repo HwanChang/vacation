@@ -7,7 +7,7 @@ import com.hwanchang.vacation.entity.application.State;
 import com.hwanchang.vacation.entity.approve.Approve;
 import com.hwanchang.vacation.entity.user.User;
 import com.hwanchang.vacation.entity.vacation.Vacation;
-import com.hwanchang.vacation.error.NotFoundException;
+import com.hwanchang.vacation.error.UserNotFoundException;
 import com.hwanchang.vacation.repository.appclication.ApplicationRepository;
 import com.hwanchang.vacation.repository.approve.ApproveRepository;
 import com.hwanchang.vacation.repository.user.UserRepository;
@@ -41,12 +41,12 @@ public class ApplicationService {
                             .map(approveRequest -> new Approve(
                                             approveRequest.getLevel(),
                                             userRepository.findById(approveRequest.getApproverId())
-                                                    .orElseThrow(() -> new NotFoundException(User.class, approveRequest.getApproverId())),
+                                                    .orElseThrow(() -> new UserNotFoundException(User.class, approveRequest.getApproverId())),
                                             application
                                     )
                             ).collect(toList()));
                     return applicationRepository.save(application);
-                }).orElseThrow(() -> new NotFoundException(User.class, userId));
+                }).orElseThrow(() -> new UserNotFoundException(User.class, userId));
     }
 
     public List<Application> findAll(Long userId) {

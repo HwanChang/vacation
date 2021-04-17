@@ -3,7 +3,7 @@ package com.hwanchang.vacation.service.confirm;
 import com.hwanchang.vacation.entity.application.State;
 import com.hwanchang.vacation.entity.confirm.Confirm;
 import com.hwanchang.vacation.entity.user.User;
-import com.hwanchang.vacation.error.NotFoundException;
+import com.hwanchang.vacation.error.UserNotFoundException;
 import com.hwanchang.vacation.repository.confirm.ConfirmRepository;
 import com.hwanchang.vacation.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class ConfirmService {
                 .map(confirm -> {
                     confirm.confirm(
                             userRepository.findById(userId)
-                                    .orElseThrow(() -> new NotFoundException(User.class, userId))
+                                    .orElseThrow(() -> new UserNotFoundException(User.class, userId))
                     );
                     return confirm;
                 });

@@ -3,7 +3,7 @@ package com.hwanchang.vacation.controller.v1.user;
 import com.hwanchang.vacation.controller.v1.user.dto.*;
 import com.hwanchang.vacation.entity.user.Role;
 import com.hwanchang.vacation.entity.user.User;
-import com.hwanchang.vacation.error.NotFoundException;
+import com.hwanchang.vacation.error.UserNotFoundException;
 import com.hwanchang.vacation.security.Jwt;
 import com.hwanchang.vacation.security.JwtAuthentication;
 import com.hwanchang.vacation.service.user.UserService;
@@ -61,7 +61,7 @@ public class UserRestController {
         return ResponseEntity.ok(
                 new UserDto(
                         userService.findById(authentication.userId)
-                                .orElseThrow(() -> new NotFoundException(User.class, authentication.userId))
+                                .orElseThrow(() -> new UserNotFoundException(User.class, authentication.userId))
                 )
         );
     }
@@ -72,7 +72,7 @@ public class UserRestController {
         return ResponseEntity.ok(
                 new RoleResponse(
                         userService.findById(authentication.userId)
-                                .orElseThrow(() -> new NotFoundException(User.class, authentication.userId))
+                                .orElseThrow(() -> new UserNotFoundException(User.class, authentication.userId))
                 )
         );
     }

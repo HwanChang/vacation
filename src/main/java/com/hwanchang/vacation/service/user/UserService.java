@@ -1,7 +1,7 @@
 package com.hwanchang.vacation.service.user;
 
 import com.hwanchang.vacation.entity.user.User;
-import com.hwanchang.vacation.error.NotFoundException;
+import com.hwanchang.vacation.error.UserNotFoundException;
 import com.hwanchang.vacation.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +44,7 @@ public class UserService {
                     user.login(passwordEncoder, password);
                     user.afterLoginSuccess();
                     return user;
-                }).orElseThrow(() -> new NotFoundException(User.class, email));
+                }).orElseThrow(() -> new UserNotFoundException(User.class, email));
     }
 
     @Transactional
@@ -55,7 +55,7 @@ public class UserService {
                 .map(user -> {
                     user.updatePassword(passwordEncoder.encode(password));
                     return userRepository.save(user);
-                }).orElseThrow(() -> new NotFoundException(User.class, userId));
+                }).orElseThrow(() -> new UserNotFoundException(User.class, userId));
     }
 
     @Transactional
@@ -64,7 +64,7 @@ public class UserService {
                 .map(user -> {
                     user.updateUser(name, phone);
                     return update(user);
-                }).orElseThrow(() -> new NotFoundException(User.class, userId));
+                }).orElseThrow(() -> new UserNotFoundException(User.class, userId));
     }
 
     @Transactional
@@ -73,7 +73,7 @@ public class UserService {
                 .map(user -> {
                     userRepository.delete(user);
                     return user;
-                }).orElseThrow(() -> new NotFoundException(User.class, userId));
+                }).orElseThrow(() -> new UserNotFoundException(User.class, userId));
     }
 
     public Optional<User> findByEmail(String email) {
