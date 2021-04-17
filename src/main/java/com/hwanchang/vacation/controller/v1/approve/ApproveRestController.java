@@ -2,7 +2,7 @@ package com.hwanchang.vacation.controller.v1.approve;
 
 import com.hwanchang.vacation.controller.v1.application.dto.ApplicationDto;
 import com.hwanchang.vacation.entity.application.Application;
-import com.hwanchang.vacation.error.NotFoundException;
+import com.hwanchang.vacation.error.ApplicationNotFoundException;
 import com.hwanchang.vacation.security.JwtAuthentication;
 import com.hwanchang.vacation.service.approve.ApproveService;
 import io.swagger.annotations.Api;
@@ -32,7 +32,7 @@ public class ApproveRestController {
         return ResponseEntity.ok(
                 approveService.approve(applicationId, authentication.userId)
                         .map(ApplicationDto::new)
-                        .orElseThrow(() -> new NotFoundException(Application.class, applicationId))
+                        .orElseThrow(() -> new ApplicationNotFoundException(Application.class, applicationId))
         );
     }
 

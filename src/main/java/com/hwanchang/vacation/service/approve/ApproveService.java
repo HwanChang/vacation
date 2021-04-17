@@ -2,7 +2,7 @@ package com.hwanchang.vacation.service.approve;
 
 import com.hwanchang.vacation.entity.application.Application;
 import com.hwanchang.vacation.entity.application.State;
-import com.hwanchang.vacation.error.NotFoundException;
+import com.hwanchang.vacation.error.ApplicationNotFoundException;
 import com.hwanchang.vacation.repository.appclication.ApplicationRepository;
 import com.hwanchang.vacation.repository.approve.ApproveRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class ApproveService {
                                     application.approveApplication();
                                 }
                                 return application;
-                            }).orElseThrow(() -> new NotFoundException(Application.class, applicationId));
+                            }).orElseThrow(() -> new ApplicationNotFoundException(Application.class, applicationId));
                 });
     }
 

@@ -1,9 +1,6 @@
 package com.hwanchang.vacation.controller;
 
-import com.hwanchang.vacation.error.NotFoundException;
-import com.hwanchang.vacation.error.ServiceRuntimeException;
-import com.hwanchang.vacation.error.UnauthorizedException;
-import com.hwanchang.vacation.error.UserNotFoundException;
+import com.hwanchang.vacation.error.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -52,7 +49,7 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler(ServiceRuntimeException.class)
     public ResponseEntity<?> handleServiceRuntimeException(ServiceRuntimeException e) {
-        if (e instanceof NotFoundException || e instanceof UserNotFoundException)
+        if (e instanceof NotFoundException || e instanceof UserNotFoundException || e instanceof ApplicationNotFoundException)
             return response(e.getMessage(), HttpStatus.NOT_FOUND);
         if (e instanceof UnauthorizedException)
             return response(e.getMessage(), HttpStatus.UNAUTHORIZED);
