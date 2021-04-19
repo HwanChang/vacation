@@ -26,7 +26,7 @@ public class UserDto {
     @ApiModelProperty(value = "사용자명", required = true)
     private String name;
 
-    @ApiModelProperty(value = "역할", required = true)
+    @ApiModelProperty(value = "권한", required = true)
     private List<Role> roles;
 
     @ApiModelProperty(value = "전화번호", required = true)

@@ -16,7 +16,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 @ToString
 public class RoleResponse {
 
-    @ApiModelProperty(value = "역할", required = true)
+    @ApiModelProperty(value = "권한", required = true)
     private List<Role> roles;
 
     public RoleResponse(User source) {
