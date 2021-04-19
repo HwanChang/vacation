@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "**").permitAll()
                 .antMatchers("/api/auth").permitAll()
+                .antMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
                 .antMatchers("/api/v?/user/exists").permitAll()
                 .antMatchers("/api/v?/user/join").permitAll()
                 .antMatchers("/api/v?/**/confirm*").hasRole(Role.MANAGER.name())

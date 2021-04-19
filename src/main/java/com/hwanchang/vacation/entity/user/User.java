@@ -132,4 +132,8 @@ public class User extends BaseTimeEntity {
         this.phone = phone;
     }
 
+    public void changeRole(List<Role> roles) {
+        this.roles = roles;
+    }
+
 }
